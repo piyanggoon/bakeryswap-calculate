@@ -3,6 +3,13 @@ const request = require('request');
 const utils = require('./utility.js');
 const abi = require('./abi.js');
 
+/*
+Investment
+BNB = 34.909862751111051142
+BAKE = 4,078.804903480316454981
+BNB/BAKE = 116.838182165
+BakeryLPs = 358.67556135364667003
+*/
 const myAddress = '0x9d201Bb5da57460496F0D94afd60a5A13A3231D9'; // edit
 const BNBInvestment = 34.909862751111051142; // edit (now only calculate in BNB/BAKE)
 
@@ -174,7 +181,7 @@ async function startHere() {
   totalValue = utils.currency(totalValue);
   
   totalLossBNB = utils.currency(totalLossBNB, false, 8)
-  lossPercent = utils.currency(lossPercent, false, 4)
+  lossPercent = utils.currency(lossPercent, false, 2)
   
   console.log('==============================')
   console.log('1 BNB = ' + bnb_usd)
