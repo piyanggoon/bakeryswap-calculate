@@ -22,9 +22,10 @@ const contract = new web3.eth.Contract(abi, contractAddress);
 
 const BNB_BAKE = '0xc2Eed0F5a0dc28cfa895084bC0a9B8B8279aE492';
 const BAKE_BAKE = '0xe02df9e3e622debdd69fb838bb799e3f168902c5';
+const BAKEPoolAddress = '0x20ec291bb8459b6145317e7126532ce7ece5056f';
 
 //
-const BAKEContract = '0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5';
+const BAKEContract = '0xe02df9e3e622debdd69fb838bb799e3f168902c5';
 const BAKEAddress = '0xc2eed0f5a0dc28cfa895084bc0a9b8b8279ae492';
 
 const BNBContract = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c';
@@ -111,8 +112,8 @@ async function startHere() {
   let bakeBalance = await getBalance(BAKEContract, BAKEAddress);
   let blpSupply = await getSupply(BLPContract);
   
-  let BNBPool = await getPoolInfo(BNB_BAKE, myAddress);
-  let BAKEPool = await getPoolInfo(BAKE_BAKE, myAddress);
+  let bnbPool = await getPoolInfo(BNB_BAKE, myAddress);
+  let bakePool = await getPoolInfo(BAKE_BAKE, myAddress);
   
   let bnb_bake = bakeBalance / bnbBalance;
       bnb_bake = bnb_bake - (bnb_bake * 0.003);
@@ -121,21 +122,24 @@ async function startHere() {
   let bnbValue = bnbBalance * bnb_usd;
   let bakeValue = bakeBalance * bake_usd;
   
+  let bakePoolBal = await getBalance(BAKEContract, BAKEPoolAddress);
+  let bakePoolVal = bakePoolBal * bake_usd;
+  
   // BNB/BAKE
-  let myBLP = BNBPool.liquidity;
+  let myBLP = bnbPool.liquidity;
   let poolShare = myBLP / blpSupply * 100;
   let myBNB = bnbBalance * poolShare / 100;
   let myBNBValue = myBNB * bnb_usd;
   let myBAKE = bakeBalance * poolShare / 100;
   let myBAKEValue = myBAKE * bake_usd;
-  let myBAKEMining = BNBPool.pendingReward;
+  let myBAKEMining = bnbPool.pendingReward;
   let myBAKEMiningValue = myBAKEMining * bake_usd;
   let poolValue = myBNBValue + myBAKEValue + myBAKEMiningValue;
   
   // BAKE/BAKE
-  let myBAKEStake = BAKEPool.liquidity;
+  let myBAKEStake = bakePool.liquidity;
   let myBAKEStakeValue = myBAKEStake * bake_usd;
-  let myBAKEStakeMining = BAKEPool.pendingReward;
+  let myBAKEStakeMining = bakePool.pendingReward;
   let myBAKEStakeMiningValue = myBAKEStakeMining * bake_usd;
   let BAKEPoolValue = myBAKEStakeValue + myBAKEStakeMiningValue;
   
@@ -156,6 +160,9 @@ async function startHere() {
   bnbValue = utils.currency(bnbValue);
   bakeBalance = utils.currency(bakeBalance, false, 8);
   bakeValue = utils.currency(bakeValue);
+  
+  bakePoolBal = utils.currency(bakePoolBal, false, 8);
+  bakePoolVal = utils.currency(bakePoolVal);
   
   // BNB/BAKE
   myBNB = utils.currency(myBNB, false, 8);
@@ -191,6 +198,9 @@ async function startHere() {
   console.log('[BNB/BAKE]')
   console.log('BNB (Pool) = ' + bnbBalance + ' (' + bnbValue + ')')
   console.log('BAKE (Pool) = ' + bakeBalance + ' (' + bakeValue + ')')
+  console.log('==============================')
+  console.log('[BAKE/BAKE]')
+  console.log('BAKE (Pool) = ' + bakePoolBal + ' (' + bakePoolVal + ')')
   console.log('==============================')
   console.log('[BNB/BAKE]')
   console.log('Pool Share = ' + poolShare + '%')
