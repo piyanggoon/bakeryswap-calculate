@@ -141,6 +141,7 @@ async function startHere() {
   let myBAKEStakeValue = myBAKEStake * bake_usd;
   let myBAKEStakeMining = bakePool.pendingReward;
   let myBAKEStakeMiningValue = myBAKEStakeMining * bake_usd;
+  let BAKEPoolShare = myBAKEStake / bakePoolBal;
   let BAKEPoolValue = myBAKEStakeValue + myBAKEStakeMiningValue;
   
   let myBAKEWallet = await getBalance(BAKEContract, myAddress);
@@ -172,13 +173,14 @@ async function startHere() {
   myBAKEMining = utils.currency(myBAKEMining, false, 8);
   myBAKEMiningValue = utils.currency(myBAKEMiningValue);
   poolValue = utils.currency(poolValue);
-  poolShare = utils.currency(poolShare, false,6);
+  poolShare = utils.currency(poolShare, false, 8);
   
   // BAKE/BAKE
   myBAKEStake = utils.currency(myBAKEStake, false, 8);
   myBAKEStakeValue = utils.currency(myBAKEStakeValue);
   myBAKEStakeMining = utils.currency(myBAKEStakeMining, false, 8);
   myBAKEStakeMiningValue = utils.currency(myBAKEStakeMiningValue);
+  BAKEPoolShare = utils.currency(BAKEPoolShare, false, 8)
   BAKEPoolValue = utils.currency(BAKEPoolValue);
   
   myBAKEWallet = utils.currency(myBAKEWallet, false, 8);
@@ -210,6 +212,7 @@ async function startHere() {
   console.log('Pool Value = ' + poolValue)
   console.log('==============================')
   console.log('[BAKE/BAKE]')
+  console.log('Pool Share = ' + BAKEPoolShare  + '%')
   console.log('BAKE (Stake) = ' + myBAKEStake + ' (' + myBAKEStakeValue +')')
   console.log('BAKE (Mining) = ' + myBAKEStakeMining + ' (' + myBAKEStakeMiningValue + ')')
   console.log('Pool Value = ' + BAKEPoolValue)
@@ -219,8 +222,10 @@ async function startHere() {
   console.log('Total BAKE = ' + totalBAKE + ' (' + totalBAKEValue + ')')
   console.log('Total Value = ' + totalValue)
   console.log('==============================')
-  console.log('Total Loss = ' + totalLossBNB + ' BNB (' + lossPercent + '%)')
-  console.log('==============================')
+  if(BNBInvestment > 0) {
+    console.log('Total Loss = ' + totalLossBNB + ' BNB (' + lossPercent + '%)')
+    console.log('==============================')
+  }
 }
 
 startHere();
