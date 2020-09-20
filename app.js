@@ -39,17 +39,18 @@ async function getPoolInfo(pair, address) {
 
 	return new Promise((resolve, reject) => {
 		poolInfoMap.call((err, res) => {
-			if (err) return reject(new Error('getPoolInfo'));
+			if (err)
+			  return reject(new Error('getPoolInfo'));
 
 			let accBakePerShare = res[2];
 			let accBakePerShareMultiple = 1e12;
 			poolUserInfoMap.call((err, res) => {
-				if (err) return reject(new Error('getPoolInfo'));
+				if (err)
+				  return reject(new Error('getPoolInfo'));
 
 				let amount = res[0];
 				let rewardDebt = res[1];
-				let pendingReward =
-					(amount * accBakePerShare) / accBakePerShareMultiple - rewardDebt;
+				let pendingReward = (amount * accBakePerShare) / accBakePerShareMultiple - rewardDebt;
 
 				resolve({
 					liquidity: utils.token(amount),
@@ -61,20 +62,16 @@ async function getPoolInfo(pair, address) {
 }
 
 async function getBalance(contract, address) {
-	let url =
-		'https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=' +
-		contract +
-		'&address=' +
-		address +
-		'&tag=latest';
+	let url = 'https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=' + contract + '&address=' + address + '&tag=latest';
 
 	return new Promise((resolve, reject) => {
 		request.get(url, (err, res, body) => {
-			if (err || res.statusCode != 200) return reject(new Error('getBalance'));
+			if (err || res.statusCode != 200)
+			  return reject(new Error('getBalance'));
 
 			let json = JSON.parse(body);
 			let balance = json.result;
-			balance = utils.token(balance);
+			    balance = utils.token(balance);
 
 			resolve(balance);
 		});
@@ -82,17 +79,16 @@ async function getBalance(contract, address) {
 }
 
 async function getSupply(contract) {
-	let url =
-		'https://api.bscscan.com/api?module=stats&action=tokensupply&contractaddress=' +
-		contract;
+	let url = 'https://api.bscscan.com/api?module=stats&action=tokensupply&contractaddress=' + contract;
 
 	return new Promise((resolve, reject) => {
 		request.get(url, (err, res, body) => {
-			if (err || res.statusCode != 200) return reject(new Error('getSupply'));
+			if (err || res.statusCode != 200)
+			  return reject(new Error('getSupply'));
 
 			let json = JSON.parse(body);
 			let supply = json.result;
-			supply = utils.token(supply);
+			    supply = utils.token(supply);
 
 			resolve(supply);
 		});
@@ -104,7 +100,8 @@ async function getBNBPrice() {
 
 	return new Promise((resolve, reject) => {
 		request.get(url, (err, res, body) => {
-			if (err || res.statusCode != 200) return reject(new Error('getBNBPrice'));
+			if (err || res.statusCode != 200)
+			  return reject(new Error('getBNBPrice'));
 
 			let json = JSON.parse(body);
 			let bid = parseFloat(json.bids[0][0]);
