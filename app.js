@@ -124,7 +124,7 @@ async function startHere() {
 	let bakePool = await getPoolInfo(BAKE_BAKE, myAddress);
 
 	let bnb_bake = bakeBalance / bnbBalance;
-	bnb_bake = bnb_bake - bnb_bake * 0.003;
+	    bnb_bake = bnb_bake - bnb_bake * 0.003;
 	let bnb_usd = await getBNBPrice();
 	let bake_usd = bnb_usd / (bakeBalance / bnbBalance);
 	let bnbValue = bnbBalance * bnb_usd;
@@ -154,15 +154,9 @@ async function startHere() {
 
 	let myBAKEWallet = await getBalance(BAKEContract, myAddress);
 	let myBAKEWalletValue = myBAKEWallet * bake_usd;
-	let totalBAKE =
-		myBAKE + myBAKEMining + myBAKEStake + myBAKEStakeMining + myBAKEWalletValue;
+	let totalBAKE = myBAKE + myBAKEMining + myBAKEStake + myBAKEStakeMining + myBAKEWalletValue;
 	let totalBAKEValue = totalBAKE * bake_usd;
-	let totalValue =
-		myBNBValue +
-		myBAKEValue +
-		myBAKEMiningValue +
-		(myBAKEStakeValue + myBAKEStakeMiningValue) +
-		myBAKEWalletValue;
+	let totalValue = myBNBValue + myBAKEValue + myBAKEMiningValue + (myBAKEStakeValue + myBAKEStakeMiningValue) + myBAKEWalletValue;
 
 	// now only calculate only in BNB/BAKE
 	let totalLossBNB = (BNBInvestment - myBNB) * 2;
@@ -222,22 +216,16 @@ async function startHere() {
 	console.log('Pool Share = ' + poolShare + '%');
 	console.log('BNB = ' + myBNB + ' (' + myBNBValue + ')');
 	console.log('BAKE = ' + myBAKE + ' (' + myBAKEValue + ')');
-	console.log(
-		'BAKE (Mining) = ' + myBAKEMining + ' (' + myBAKEMiningValue + ')'
-	);
+	console.log('BAKE (Mining) = ' + myBAKEMining + ' (' + myBAKEMiningValue + ')');
 	console.log('Pool Value = ' + poolValue);
 	console.log('==============================');
 	console.log('[BAKE/BAKE]');
 	console.log('Pool Share = ' + BAKEPoolShare + '%');
 	console.log('BAKE (Stake) = ' + myBAKEStake + ' (' + myBAKEStakeValue + ')');
-	console.log(
-		'BAKE (Mining) = ' + myBAKEStakeMining + ' (' + myBAKEStakeMiningValue + ')'
-	);
+	console.log('BAKE (Mining) = ' + myBAKEStakeMining + ' (' + myBAKEStakeMiningValue + ')');
 	console.log('Pool Value = ' + BAKEPoolValue);
 	console.log('==============================');
-	console.log(
-		'BAKE (Wallet) = ' + myBAKEWallet + ' (' + myBAKEWalletValue + ')'
-	);
+	console.log('BAKE (Wallet) = ' + myBAKEWallet + ' (' + myBAKEWalletValue + ')');
 	console.log('Total BNB = ' + myBNB + ' (' + myBNBValue + ')');
 	console.log('Total BAKE = ' + totalBAKE + ' (' + totalBAKEValue + ')');
 	console.log('Total Value = ' + totalValue);
